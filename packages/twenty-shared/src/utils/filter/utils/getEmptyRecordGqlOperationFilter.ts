@@ -134,6 +134,24 @@ export const getEmptyRecordGqlOperationFilter = ({
       break;
     }
     case 'CURRENCY':
+      if (isSubFieldFilter && compositeFieldName === 'currencyCode') {
+        emptyRecordFilter = {
+          or: [
+            {
+              [correspondingField.name]: {
+                currencyCode: { ilike: '' },
+              } as CurrencyFilter,
+            },
+            {
+              [correspondingField.name]: {
+                currencyCode: { is: 'NULL' },
+              } as CurrencyFilter,
+            },
+          ],
+        };
+        break;
+      }
+
       emptyRecordFilter = {
         or: [
           {
